@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HELEN SALON</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+       body {
+    background: linear-gradient(135deg, #ffcc00, #1a1a1a);
+    color: #fff;
+    background-repeat: no-repeat;
+}
+
+.header-text {
+    font-size: 45px;
+    font-weight: bold;
+    color: #000000;
+    margin-right: 5px; /* Espacio entre el título y el subtítulo */
+}
+
+.sub-text {
+    font-size: 15px;
+    color: #000000;
+}
+
+.container-fluid {
+    padding: 20px;
+    display: flex; /* Establece un contenedor flexible */
+    align-items: center; /* Centra verticalmente los elementos */
+    justify-content: flex-start; /* Alinea todo hacia la izquierda */
+}
+
+.note-logo-container {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Espacio entre la nota y el logo */
+    width: 650px;
+}
+
+.note-box {
+    background-color: #ffffff00;
+    color: #e9e9e9;
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center;
+    flex: 1;
+
+}
+
+.logo-box img {
+    width: 200px; /* Ajusta el tamaño del logo según tus necesidades */
+    height: auto;
+}
+
+.btn-custom {
+    background-color: #ffcc00;
+    color: #000;
+    flex-grow: 1;
+    margin-right: 2px; /* Espacio entre botones */
+}
+
+.small-img {
+    height: 400px;
+    width: 700px; /* Ajusta el ancho al 100% del contenedor */
+    object-fit: cover; /* Hace que la imagen ocupe todo el espacio posible sin distorsionarse */
+
+}
+
+.form-container {
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    border-radius: 20px;
+    color: #fff;
+    max-width: 400px;
+    margin: 0 auto;
+    height: fit-content;
+    margin-left: 200px; /* Mover el formulario más a la derecha */
+
+}
+
+.btn-group-container {
+    display: flex;
+    justify-content: space-between;
+   width: 700px;
+    margin-top: 2px;
+}
+.note-logo-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 1rem;
+}
+
+.note-box {
+    flex: 1;
+    margin-right: 1rem;
+}
+
+.logo-box {
+    flex-shrink: 0;
+}
+
+    </style>
+    </head>
+    <body>        
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="d-flex align-items-center">
+                        <h1 class="header-text">HELEN SALON</h1>
+                        <p class="sub-text">Barrio el Centro Ereguayquin, Usulután</p>
+                    </div>
+                    <img src="{{ url_for('static', filename='sillas.jpeg') }}" class="small-img" alt="Imagen de registro">
+                    <br>
+                    <!-- Botones alineados en fila horizontal -->
+                    <div class="btn-group-container">
+                         <a href="{{ url_for('inicio') }}" class="btn btn-custom" id="inicio">Servicios</a>
+                        <a href="{{ url_for('reseñas') }}" class="btn btn-custom" id="reseñas">Reseñas</a>
+                         <a href="{{ url_for('portafolio') }}" class="btn btn-custom" id="PButton">Portafolio</a>
+                         <a href="{{ url_for('detalles') }}" class="btn btn-custom" id="DButton">Detalles</a>
+                    </div>
+            
+                    <!-- Nota con imagen del logo al lado derecho -->
+                   
+                    <div class="note-logo-container mt-3">
+                        <div class="note-box">
+                            <textarea class="form-control" rows="3" id="nota-textarea" placeholder="Nota (opcional)"></textarea>
+                        </div>
+                        <div class="logo-box">
+                            <img src="{{ url_for('static', filename='logo.png') }}" alt="Helen Salon Logo">
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            
+                {% if request.args.get('mensaje') %}
+                <script>
+                    Swal.fire({
+                        icon: "{{ request.args.get('tipo') }}",  // 'success' o 'error'
+                        title: "{{ request.args.get('mensaje') }}",  // El mensaje a mostrar
+                        showConfirmButton: true,
+                    });
+                </script>
+            {% endif %}
+            
+                              <div class="col-md-6">
+                    <div class="form-container">
+                        <h3 class="text-center">Reservar Cita</h3>
+                        <form action="/reservar" method="POST">
+                            <div class="mb-3">
+                                <label for="nombre" class="form-label">Tu Nombre:</label>
+                                <input type="text" id="nombre" name="nombre" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="correo" class="form-label">Correo Electrónico/ Teléfono:</label>
+                                <input type="text" id="correo" name="correo" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="fecha" class="form-label">Fecha:</label>
+                                <input type="date" id="fecha" name="fecha" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="hora" class="form-label">Horas Disponibles:</label>
+                                <input type="time" id="hora" name="hora" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="servicio" class="form-label">Servicio:</label>
+                                <input type="text" id="servicio" name="servicio" class="form-control" required>
+                            </div>
+                        
+                            <button type="submit" class="btn btn-custom w-100">Agendar Cita</button>
+                        </form>
+                        
+                    </div>
+                </div>
+            </div>        
+            <script>
+                document.querySelector('note-box').addEventListener('submit', function(event) {
+                    // Copiar el valor de textarea al campo oculto
+                    var notaTextarea = document.getElementById('nota-textarea');
+                    document.getElementById('nota').value = notaTextarea.value;
+                });
+            </script>
+
+
+<script>
+    Swal.fire({
+        icon: "{{ request.args.get('tipo') }}",  // 'success' o 'error'
+        title: "{{ request.args.get('mensaje') }}",  // El mensaje a mostrar
+        showConfirmButton: false,  // Eliminar el botón de confirmación
+        timer: 3000  // El alerta se cierra después de 3 segundos
+    });
+</script>
+    
+    </body>
+    </html>
+    
